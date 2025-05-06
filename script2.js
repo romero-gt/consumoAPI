@@ -1,4 +1,5 @@
 const apiURL = 'https://pokeapi.co/api/v2/pokemon/';
+let currentId = 1;
 
 const renderDetails = (details) => {
     const container = document.getElementById('container');
@@ -11,3 +12,30 @@ const renderDetails = (details) => {
     `;
 }
 
+const loadPokemon = async (nextId) => {
+    const response = await fetch(apiURL + nextId);
+    const data = await response.json();
+    currentId = +nextId;
+    renderDetails(data);
+}
+
+const loadActionEvent = () => {
+    const previusButton = document.getElementById('previus');
+    const nextButton = document.getElementById('next');
+
+    nextButton.addEventListener('click', () => {
+        loadPokemon(currentId + 1);
+    });
+    previusButton.addEventListener('click', () => {
+        loadPokemon(currentId - 1);
+    });
+    const searchForm = document.getElementById('search-form');
+    searchForm.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        const input = document.getElementById('search-input').value;
+        loadPokemon(input);
+        searchForm.reset();
+    })
+}
+loadPokemon(currentId);
+loadActionEvent();
