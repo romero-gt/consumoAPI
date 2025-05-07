@@ -15,7 +15,7 @@ const renderDetails = (details) => {
 const loadPokemon = async (nextId) => {
     const response = await fetch(apiURL + nextId);
     const data = await response.json();
-    currentId = +nextId;
+    currentId = data.id;
     renderDetails(data);
 }
 
